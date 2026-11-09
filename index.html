@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyMate | Your Academic Space</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #f5f6fc;
+  --surface: #ffffff;
+  --ink: #20213a;
+  --muted: #8589a3;
+  --primary: #7165e8;
+  --purple-light: #eeecff;
+  --green: #27ae83;
+  --border: #eeeff5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.app {
+  max-width: 1440px;
+  margin: auto;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 235px 1fr;
+}
+
+.sidebar {
+  background: #fff;
+  padding: 32px 22px;
+  border-right: 1px solid var(--border);
+}
+
+.logo {
+  font-family: 'Outfit', sans-serif;
+  font-size: 25px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 48px;
+}
+
+.logo span { color: var(--ink); }
+
+.nav-label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 15px;
+}
+
+.nav-item {
+  padding: 13px 15px;
+  border-radius: 12px;
+  margin: 7px 0;
+  color: #777b96;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nav-item.active {
+  background: var(--purple-light);
+  color: var(--primary);
+}
+
+.sidebar-note {
+  margin-top: 55px;
+  padding: 18px;
+  background: #f4f1ff;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.main { padding: 35px 5%; }
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.date-label { color: var(--muted); font-size: 13px; }
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.avatar {
+  width: 39px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  background: #e9e6ff;
+  color: var(--primary);
+  border-radius: 50%;
+}
+
+h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 32px;
+  margin: 0 0 8px;
+}
+
+.subtitle { color: var(--muted); font-size: 14px; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin: 30px 0;
+}
+
+.card {
+  background: var(--surface);
+  padding: 23px;
+  border-radius: 19px;
+  border: 1px solid var(--border);
+  box-shadow: 0 5px 20px rgba(40,40,90,.025);
+}
+
+.stat-label { color: var(--muted); font-size: 13px; }
+
+.stat-number {
+  font-family: 'Outfit', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.stat-icon { font-size: 21px; }
+
+.section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.progress-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin: 17px 0 9px;
+  font-size: 13px;
+}
+
+.progress-track {
+  height: 9px;
+  background: #efeff7;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg,#8175f0,#a99cff);
+  border-radius: 20px;
+  transition: width .3s;
+}
+
+.task-section { margin-top: 32px; }
+
+.form-card { margin-top: 18px; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 12px;
+  margin-top: 17px;
+}
+
+input, select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: #fafaff;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  color: var(--ink);
+}
+
+input:focus, select:focus {
+  border-color: var(--primary);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 11px;
+  padding: 12px 19px;
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+button:hover { opacity: .88; }
+
+.filters {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin: 18px 0;
+}
+
+.filter-btn {
+  background: white;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 9px 16px;
+  font-size: 12px;
+}
+
+.filter-btn.active {
+  background: var(--purple-light);
+  color: var(--primary);
+  border-color: transparent;
+}
+
+.task-list { display: grid; gap: 11px; }
+
+.task {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 17px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.task-left {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.task-check {
+  width: 19px;
+  height: 19px;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.task-name { font-size: 14px; font-weight: 700; overflow-wrap: anywhere; }
+
+.task.completed .task-name {
+  text-decoration: line-through;
+  color: #a3a5b5;
+}
+
+.task-meta {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.delete-btn {
+  background: #fff0f0;
+  color: #e46c6c;
+  padding: 9px 12px;
+  font-size: 12px;
+}
+
+.empty {
+  text-align: center;
+  padding: 40px 15px;
+  background: white;
+  border-radius: 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  padding: 35px 0 15px;
+}
+
+@media(max-width:850px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main { padding: 25px 5%; }
+}
+
+@media(max-width:600px) {
+  h1 { font-size: 27px; }
+  .stats { grid-template-columns: 1fr; gap: 10px; }
+  .stat-number { font-size: 25px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .topbar { margin-bottom: 28px; }
+  .card { padding: 18px; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="logo">Study<span>Mate.</span></div>
+
+  <div class="nav-label">WORKSPACE</div>
+  <div class="nav-item active">▦ &nbsp; Dashboard</div>
+  <div class="nav-item">✓ &nbsp; My Tasks</div>
+  <div class="nav-item">◷ &nbsp; My Progress</div>
+
+  <div class="sidebar-note">
+    ✨ <strong>Little steps, big results.</strong><br>
+    Stay consistent, organise your work and make every study session count.
+  </div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <div class="date-label" id="todayDate"></div>
+  <div class="profile">
+    <div class="avatar">S</div>
+    Student
+  </div>
+</header>
+
+<section>
+  <h1>Welcome back, Student! 👋</h1>
+  <p class="subtitle">Your academic journey, organised in one place.</p>
+</section>
+
+<section class="stats">
+  <div class="card">
+    <div class="stat-label">📚 Total Tasks</div>
+    <div class="stat-number" id="totalCount">0</div>
+  </div>
+
+  <div class="card">
+    <div class="stat-label">⏳ Pending Tasks</div>
+    <div class="stat-number" id="pendingCount">0</div>
+  </div>
+
+  <div class="card">
+    <div class="stat-label">🏆 Completed Tasks</div>
+    <div class="stat-number" id="completedCount">0</div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="section-title">Your study progress</div>
+
+  <div class="progress-wrap">
+    <span>Overall completion</span>
+    <strong id="progressText">0%</strong>
+  </div>
+
+  <div class="progress-track">
+    <div class="progress-fill" id="progressBar"></div>
+  </div>
+</section>
+
+<section class="task-section">
+  <div class="section-title">Add a new study task ✍️</div>
+
+  <div class="card form-card">
+    <form id="taskForm">
+      <div class="form-grid">
+        <input id="taskName" type="text"
+          placeholder="What do you need to study?" required maxlength="100">
+
+        <select id="subject" required>
+          <option value="" disabled selected>Subject</option>
+          <option>Mathematics</option>
+          <option>Computer Science</option>
+          <option>Engineering</option>
+          <option>Physics</option>
+          <option>Other</option>
+        </select>
+
+        <input id="dueDate" type="date" required>
+
+        <button type="submit">+ Add Task</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="task-section">
+  <div class="section-title">Your study tasks</div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="pending">Pending</button>
+    <button class="filter-btn" data-filter="completed">Completed</button>
+  </div>
+
+  <div class="task-list" id="taskList"></div>
+</section>
+
+<div class="footer">
+  StudyMate © 2026 | Made for smarter student life 💜
+</div>
+
+</main>
+</div>
+
+<script>
+const STORAGE_KEY = "studymate_tasks";
+
+let tasks = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+let currentFilter = "all";
+
+const $ = id => document.getElementById(id);
+
+$("todayDate").textContent =
+  new Date().toLocaleDateString("en-IN", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+
+$("dueDate").min = new Date().toLocaleDateString("en-CA");
+
+function saveTasks() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  renderTasks();
+}
+
+function renderTasks() {
+  const total = tasks.length;
+  const completed = tasks.filter(t => t.completed).length;
+  const pending = total - completed;
+  const percent = total ? Math.round(completed / total * 100) : 0;
+
+  $("totalCount").textContent = total;
+  $("completedCount").textContent = completed;
+  $("pendingCount").textContent = pending;
+  $("progressText").textContent = percent + "%";
+  $("progressBar").style.width = percent + "%";
+
+  const filtered = tasks.filter(task => {
+    if (currentFilter === "pending") return !task.completed;
+    if (currentFilter === "completed") return task.completed;
+    return true;
+  });
+
+  const list = $("taskList");
+  list.innerHTML = "";
+
+  if (!filtered.length) {
+    list.innerHTML = `
+      <div class="empty">
+        📖<br><br>
+        No tasks here yet.<br>
+        Add your first study task to get started!
+      </div>`;
+    return;
+  }
+
+  filtered.forEach(task => {
+    const item = document.createElement("div");
+    item.className = "task" + (task.completed ? " completed" : "");
+
+    const left = document.createElement("div");
+    left.className = "task-left";
+
+    const check = document.createElement("input");
+    check.type = "checkbox";
+    check.className = "task-check";
+    check.checked = task.completed;
+    check.setAttribute("aria-label", "Mark task completed");
+    check.addEventListener("change", () => {
+      task.completed = check.checked;
+      saveTasks();
+    });
+
+    const details = document.createElement("div");
+    const name = document.createElement("div");
+    name.className = "task-name";
+    name.textContent = task.name;
+
+    const meta = document.createElement("div");
+    meta.className = "task-meta";
+    meta.textContent = task.subject + " • Due: " + task.dueDate;
+
+    details.append(name, meta);
+    left.append(check, details);
+
+    const remove = document.createElement("button");
+    remove.className = "delete-btn";
+    remove.textContent = "Delete";
+    remove.addEventListener("click", () => {
+      tasks = tasks.filter(t => t.id !== task.id);
+      saveTasks();
+    });
+
+    item.append(left, remove);
+    list.appendChild(item);
+  });
+}
+
+$("taskForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const name = $("taskName").value.trim();
+  const subject = $("subject").value;
+  const dueDate = $("dueDate").value;
+
+  if (!name || !subject || !dueDate) return;
+
+  tasks.unshift({
+    id: Date.now(),
+    name,
+    subject,
+    dueDate,
+    completed: false
+  });
+
+  saveTasks();
+  this.reset();
+  $("dueDate").min = new Date().toLocaleDateString("en-CA");
+});
+
+document.querySelectorAll(".filter-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    currentFilter = button.dataset.filter;
+
+    document.querySelectorAll(".filter-btn").forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+    button.classList.add("active");
+    renderTasks();
+  });
+});
+
+renderTasks();
+</script>
+</body>
+</html>
